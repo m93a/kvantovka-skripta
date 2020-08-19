@@ -14,6 +14,7 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{gensymb}
+\usepackage{amsthm}
 \usepackage{units}
 \usepackage{bm}
 \delimitershortfall=-1pt
@@ -48,6 +49,16 @@
 \renewcommand*{\hbar}{{\mathpalette\hbaraux\relax\mathrm{h}}}
 \newcommand*{\hbaraux}[2]{\sbox0{\mathsurround=0pt$#1\mathchar'26$}\mkern-1mu\lower.07\ht0\box0\mkern-8mu}
 
+
+\newtheorem{theorem}{Věta}[section]
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definice}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem*{remark}{Poznámka}
+\newtheorem*{example}{Příklad}
+\newtheorem{corollary}[theorem]{Důsledek}
+\newtheorem*{exercise}{Cvičení}
+
 \def\ph{\phantom}
 \def\vph{\vphantom}
 \def\hph{\hphantom}
@@ -64,7 +75,7 @@
 \def\?{\mathit{?}}
 
 \newcommand{\comm}[2]{\left[ #1, #2 \right]}
-\newcommand{\const}[1]{\text{#1}}
+\newcommand{\const}[1]{\mathrm{#1}}
 \newcommand{\norm}[1]{\left\lVert#1\right\rVert}
 
 \newcommand{\mat}[1]{
@@ -101,7 +112,7 @@
 \def\R{\mathbb{R}}
 \def\C{\mathbb{C}}
 
-\def\1{\const{Id}}
+\def\1{\hat{I}}
 
 \newcommand{\bigdot}[1]{\accentset{\bullet}{#1}}
 
@@ -125,37 +136,110 @@
 
 \maketitle
 
-\underline{Definice:}
-Mějme stav $\ket{\psi(t)}$, který se vyvíjí v čase $t$ a označme $\ket{\psi} \equiv \ket{\psi(0)}$. Potom existuje operátor $\hat{U}(t)$, pro který platí $$\ket{\psi(t)} = \hat{U}(t) \ket{\psi} \: .$$ Operátor $\hat{U}(t)$ je lineární (PROČ?) a nazýváme ho \textbf{evoluční operátor stavu} $\ket{\psi}$. Triviálně platí $\hat{U}(0) = \1$.
+\section{Vektorový formalismus}
+Je zvykem popisovat kvantové systémy pomocí abstraktních vektorů z nějakého Hilbertova prostoru, jehož dimenze závisí na modelovaném problému. V praxi pracujeme s všemožnými prostory od $\C^2$ pro popis nejjednoduších dvouhladinových systémů přes $W^{1,2}(\R)$ pro popis volné částice až po neseparabilní prostory. Kvantové stavy jsou představovány jednotkovými vektory z těchto prostorů.
 
-\vspace{2em}
-\underline{Definice:}
-Nechť pro každé dva stavy $\ket{\psi}, \ket{\phi}$ platí $$\abs{\braket{\psi}{\phi}}^2 = \abs{\braket{\psi(t)}{\phi(t)}}^2 \quad \forall t,$$ potom říkáme, že \textbf{dynamika systému je nezávislá na čase}.
+\begin{definition}[Evoluční operátor]
+    Mějme stav $\ket{\psi(t)}$, který se vyvíjí v čase $t$ a označme $\ket{\psi} \equiv \ket{\psi(0)}$. Potom existuje operátor $\hat{U}(t)$, pro který platí $$\ket{\psi(t)} = \hat{U}(t) \ket{\psi} \: .$$ Operátor $\hat{U}(t)$ je lineární (PROČ?) a nazýváme ho evolučním operátorem. Triviálně platí $\hat{U}(0) = \1$.
+\end{definition}
 
-\vspace{2em}
-\underline{Důsledek:}
-Je-li dynamika systému nezávislá na čase, potom je evoluční operátor každého stavu \textbf{unitární} a existuje samoadjugovaný operátor $\hat{H}$, že $$\hat{U}(t) = \e{-\i \, \hat{H}(t) \, t}.$$
+\begin{definition}[Dynamika nezávislá na čase]
+    Nechť pro každé dva stavy $\ket{\psi}, \ket{\phi}$ platí $$\abs{\braket{\psi}{\phi}}^2 = \abs{\braket{\psi(t)}{\phi(t)}}^2 \quad \forall t,$$ potom říkáme, že dynamika systému je nezávislá na čase.
+\end{definition}
 
-\underline{Důkaz:}
-Z nezávislosti dynamiky na čase plyne, že pro všechny stavy $\ket{\psi}$, $\ket{\phi}$ platí $$\abs{\braket{\psi}{\phi}}^2 = \abs{\braket{\psi(t)}{\phi(t)}}^2 = \abs{\bra{\psi} \, \hat{U}^+\!(t) \; \hat{U}(t) \, \ket{\phi}}^2,$$ z rovnosti absolutních hodnot vyplývá, že se vnitřky rovnají až na nějaké jednotkové komplexní číslo, tedy existuje takové $s(t) \in \R$, že $$\braket{\psi}{\phi} = \bra{\psi} \, \hat{U}^+\!(t) \; \hat{U}(t) \, \ket{\phi} \; \e{\i \, s(t)}.$$ Vidíme ale, že obecně $\e{\i \, s(t)}$ nejde rozdělit mezi $\hat{U}$ a $\hat{U}^+$: každé komplexní číslo, kterým vynásobíme $\hat{U}$ se nám v $\hat{U}^+$ vrátí jako komplexně sdružené. Musí tedy platit $\e{\i \, s(t)} = \pm 1$. Protože navíc požadujeme, aby rovnost platila v čase $t=0$ a vývoj systému byl spojitý, zbývá nám pouze $+1$. Pro evoluční operátor z toho plyne $$\braket{\psi}{\phi} = \bra{\psi} \, \hat{U}^+\!(t) \; \hat{U}(t) \, \ket{\phi},$$ $$\hat{U}^+ \!(t) \; \hat{U}(t) = \1,$$ tedy pro každé $t$ je evoluční operátor unitární.
+\begin{lemma} \label{dyn-sys-charakteristika}
+    Tyto tři výroky jsou ekvivalentní:
+    \begin{enumerate}
+        \item Dynamika systému je nezávislá na čase
+        \item Evoluční operátor $\hat U$ je v každém čase unitární
+        \item Existuje samoadjugovaný operátor $\hat A(t)$ takový, že $\hat{U}(t) = \e{-\i \, \hat{A}(t) \, t}$.
+    \end{enumerate}
+\end{lemma}
+\begin{proof}
+    Rozepíšeme si definici prvního výroku:
+    \begin{equation*}
+        \abs{\braket{\psi}{\phi}}^2 = \abs{\braket{\psi(t)}{\phi(t)}}^2 = \abs{\bra{\psi} \, \hat{U}^+\!(t) \; \hat{U}(t) \, \ket{\phi}}^2.
+    \end{equation*}
+    Implikace $1 \Leftarrow 2$ je hned zřejmá, nyní dokážeme implikaci $1 \Rightarrow 2$.
 
-Z lineární algebry víme, že každý unitární operátor lze vyjádřit jako komplexní exponenciolu samoadjugovaného operátoru (I~PRO NEKONEČNOU DIM?), tedy existuje takový samoadjugovaný operátor $\hat{A}(t)$, že $$\hat{U}(t) = \e{-\i \, \hat{A}(t)}.$$ Navíc máme požadavek, aby $\hat{U}(0) = \1$. Tento požadavek bychom mohli naplnit tak, že budeme požadovat, aby $\hat{A}(t) = 0$, ukazuje se však, že přirozenější je zavést samoadjugovaný operátor $\hat{H}(t)$, že $\hat{A}(t) = t \, \hat{H}(t)$, tedy $$\hat{U}(t) = \e{-\i \, \hat{H}(t) \, t}.$$
+    V rovnici máme druhé mocniny kladných čísel, můžeme tedy BÚNO odmocnit.
+    \begin{equation*}
+        \abs{\braket{\psi}{\phi}} = \abs{\bra{\psi} \, \hat{U}^+\!(t) \; \hat{U}(t) \, \ket{\phi}}
+    \end{equation*}
+    Z rovnosti absolutních hodnot vyplývá, že se vnitřky rovnají až na nějaké jednotkové komplexní číslo, tedy existuje takové $s(t) \in \R$, že
+    \begin{equation*}
+        \braket{\psi}{\phi} = \bra{\psi} \, \hat{U}^+\!(t) \; \hat{U}(t) \, \ket{\phi} \; \e{\i \, s(t)}.
+    \end{equation*}
+    Vidíme ale, že obecně $\e{\i \, s(t)}$ nejde rozdělit mezi $\hat{U}$ a $\hat{U}^+$: každé komplexní číslo, kterým vynásobíme $\hat{U}$ se nám v $\hat{U}^+$ vrátí jako komplexně sdružené. Musí tedy platit $\e{\i \, s(t)} = \pm 1$. Protože navíc požadujeme, aby rovnost platila v čase $t=0$ a vývoj systému byl v čase spojitý, zbývá nám pouze $+1$. Pro evoluční operátor z toho plyne $$\braket{\psi}{\phi} = \bra{\psi} \, \hat{U}^+\!(t) \; \hat{U}(t) \, \ket{\phi},$$ $$\hat{U}^+ \!(t) \; \hat{U}(t) = \1,$$ tedy pro každé $t$ je evoluční operátor unitární.
 
-\vspace{2em}
-\underline{Poznámka:}
-Z matematického hlediska jsme místo $\e{-\i \, \hat{H}(t) \, t}$ mohli stejně dobře psát $\e{+\i \, \hat{H}(t) \, t}$. Proč jsme zvolili mínus bude zřejmé, až objevíme fyzikální význam operátoru $\hat{H}$.
+    Nakonec dokážeme ekvivalenci $2 \Leftrightarrow 3$. Z lineární algebry víme, že pro každý unitární operátor $\hat U$ existuje samoadjugovaný operátor $\hat B$ takový, že $\hat U = \e{ \i \hat B}$, a naopak, že pro každý samoadjugovaný operátor $\hat B$ je výraz $\e{ \i \hat B}$ unitární. Pro evoluční operátor tedy máme
+    \begin{equation*}
+        \hat U(t) = \e{\i \, \hat B(t)}.
+    \end{equation*}
+    Protože navíc po evolučním operátoru požadujeme, aby $\hat U(0) = \1$, musí platit $\hat B(0) = 0$. BÚNO můžeme zavést operátor $\hat A(t) = - \hat B(t) / t$ pro $t \neq 0$ a libovolný pro $t=0$. Dosazením tohoto operátoru do předchozí rovnice dostáváme požadované
+    \begin{equation*}
+        \hat U(t) = \e{-\i \, \hat A(t) \, t}
+    \end{equation*}
+\end{proof}
 
-\vspace{2em}
-\underline{Věta:}
-Nechť je dynamika systému nezávislá na čase, potom platí tzv. \textit{časová Schrödingerova rovnice} (TDSE):
-$$ \i \; \dd{}{t} \! \ket{\psi(t)} = \hat{H}(t) \ket{\psi(t)} $$
+\begin{remark}
+Proč nás tolik zajímá zrovna tvar $\e{-\i \, \hat A(t) \, t}$ zjistíme v zápětí. Obzvlášť v případě $\hat A(t) = \konst$ má totiž operátor $\hat A$ důležitý fyzikální význam.
+\end{remark}
 
-\underline{Důkaz:}
-Víme, že platí $$\ket{\psi(t)} = \hat{U}(t) \ket{\psi} = \e{-\i \, \hat{H}(t) \, t} \ket{\psi},$$ nyní rovnici zderivujeme podle času $$\dd{}{t} \ket{\psi(t)} = -\i \, \hat{H}(t) \; \e{-\i \, \hat{H}(t) \, t} \ket{\psi} = -\i \, \hat{H}(t) \ket{\psi(t)}.$$
+\begin{theorem}[TDSE]
+    Nechť je dynamika systému nezávislá na čase, potom existuje samoadjugovaný operátor $\hat H(t)$, pro který platí tzv. časová Schrödingerova rovnice:
+    \begin{equation*}
+        \i \; \dd{}{t} \! \ket{\psi(t)} = \hat H(t) \ket{\psi(t)}
+    \end{equation*}
+\end{theorem}
+\begin{proof}
+    Z nezávislosti dynamiky systému na čase víme, že platí
+    \begin{equation*}
+        \ket{\psi(t)} = \e{-\i \, \hat A(t) \, t} \ket{\psi}.
+    \end{equation*}
+    Když rovnici zderivujeme podle času, dostaneme
+    \begin{equation*}
+        \dd{}{t} \! \ket{\psi(t)} = -\i \; \left( \hat A(t) + t \, \bigdot{\hat A}(t) \right) \; \underbrace{ \e{-\i \, \hat A(t) \, t} \ket{\psi} \vph{\big|}}_{\ket{\psi(t)}}
+    \end{equation*}
+    Zavedeme operátor $\hat H(t)$ předpisem
+    \begin{equation*}
+        \hat H(t) = \hat A(t) + t \, \bigdot{\hat A}(t)
+    \end{equation*}
+    a ukážeme, že je samoadjugovaný.
+    \begin{equation*}
+        \hat H^+(t)
+        = \big( \hat A(t) + t \, \bigdot{\hat A}(t) \big)^+
+        = \hat A^+(t) + t \, \big(\bigdot{\hat A}(t) \big)^+
+        = \hat A^+(t) + t \, \big(\hat A^+(t) \big)^{\bigdot{}}
+        = \hat A(t) + t \, \bigdot{\hat A}(t)
+        = \hat H(t)
+    \end{equation*}
+\end{proof}
 
-\vspace{2em}
-\underline{Definice:}
-Mějme stav $\ket{\psi}$, pro který platí $$\abs{\braket{\psi}{\psi(t)}}^2 = 1 \quad \forall t.$$ Takový stav nazýváme \textbf{stacionárním stavem systému}.
+\begin{definition}[Hamiltonián]
+    Operátor $\hat H(t)$ z předchozí věty nazýváme hamiltonián.
+\end{definition}
+
+\begin{corollary}
+    Nechť je dynamika systému nezávislá na čase a hamiltonián $\hat H$ je konstantní, potom
+    \begin{equation*}
+        \ket{\psi(t)} = \e{-\i \, \hat{H} \, t} \ket{\psi}.
+    \end{equation*}
+\end{corollary}
+\begin{proof}
+    HAHA COŽE
+\end{proof}
+
+\begin{definition}[Stacionární stav]
+    Mějme stav $\ket{\psi(t)}$, pro který v každém čase $t$ platí
+    \begin{equation*}
+        \abs{\braket{\psi}{\psi(t)}}^2 = 1.
+    \end{equation*}
+    Takový stav nazýváme stacionárním stavem systému.
+\end{definition}
+
+\pagebreak
+NÁSLEDUJE FUJ FUJ
 
 \vspace{2em}
 \underline{Důsledek:}
