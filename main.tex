@@ -115,6 +115,8 @@
 \def\bone{\bra{\mask{+}{1}}}
 \def\btwo{\bra{\mask{+}{2}}}
 
+\def\konst{\mathrm{konst.}}
+
 \begin{document}
 
 \title{Kvantová mechanika}
@@ -144,7 +146,7 @@ Z lineární algebry víme, že každý unitární operátor lze vyjádřit jako
 Z matematického hlediska jsme místo $\e{-\i \, \hat{H}(t) \, t}$ mohli stejně dobře psát $\e{+\i \, \hat{H}(t) \, t}$. Proč jsme zvolili mínus bude zřejmé, až objevíme fyzikální význam operátoru $\hat{H}$.
 
 \vspace{2em}
-\underline{Důsledek:}
+\underline{Věta:}
 Nechť je dynamika systému nezávislá na čase, potom platí tzv. \textit{časová Schrödingerova rovnice} (TDSE):
 $$ \i \; \dd{}{t} \! \ket{\psi(t)} = \hat{H}(t) \ket{\psi(t)} $$
 
@@ -159,5 +161,11 @@ Mějme stav $\ket{\psi}$, pro který platí $$\abs{\braket{\psi}{\psi(t)}}^2 = 1
 \underline{Důsledek:}
 Pro každý stacionární stav existuje $E(t) \in \R$, že $$\ket{\psi(t)} = \e{-\i \, E(t)} \ket{\psi},$$ totiž $$\abs{\braket{\psi}{\psi}}^2 = 1 = \abs{\braket{\psi}{\psi(t)}}^2 = \abs{\bra{\psi} \hat{U}(t) \ket{\psi}}^2,$$ $$\braket{\psi}{\psi} = \bra{\psi} \hat{U}(t) \ket{\psi} \e{-\i E(t)},$$ $$\hat{U}(t) = \e{-\i E(t)}.$$
 
+\vspace{2em}
+\underline{Věta:}
+Nechť je dynamika systému nezávislá na čase, $\hat{H}(t) = \konst$ a $\ket{\psi}$ je stacionární stav, potom platí tzv. \textit{bezčasová Schrödingerova rovnice} (TISE): $$\hat{H} \ket{\psi} = E \ket{\psi}.$$
+
+\underline{Důkaz:}
+Do časové Schrödingerovy rovnice dosadíme časový vývoj stacionárního stavu: $$\i \dd{}{t} \e{-\i E(t)} \ket{\psi} = \hat{H} \e{-\i E(t)} \ket{\psi},$$ a protože $E(t) = \konst$ (PROČ?), $$\e{-\i E} E \ket{\psi} = \e{-\i E(t)} \hat{H} \ket{\psi},$$ $$E \ket{\psi} = \hat{H} \ket{\psi}.$$
 
 \end{document}
