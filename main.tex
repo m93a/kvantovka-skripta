@@ -130,7 +130,7 @@
 
 \begin{document}
 
-\title{Kvantová mechanika}
+\title{Kvantová mechanika bez mávání rukama}
 \author{Michal Grňo}
 \date{\today}
 
@@ -227,7 +227,23 @@ Proč nás tolik zajímá zrovna tvar $\e{-\i \, \hat A(t) \, t}$ zjistíme v z�
     \end{equation*}
 \end{corollary}
 \begin{proof}
-    HAHA COŽE
+    Z definice hamiltoniánu máme
+    \begin{equation*}
+        \hat H = \hat A(t) + t \, \bigdot{\hat A}(t) = \konst
+    \end{equation*}
+    Rozmyslete si, že zvolíme-li nějakou bázi a pomocí ní rovnici vyjádříme maticově, každý element bude nějaká funkce času, pro kterou platí
+    \begin{equation*}
+        f(t) + t \, f'(t) = \konst
+        \iff
+        t \, f''(t) + 2 f'(t) = 0
+        \iff
+        f(t) = \frac{C_1}{t} + C_0.
+    \end{equation*}
+    I samotný operátor $\hat A(t)$ tedy musí být ve tvaru
+    \begin{equation*}
+        \hat A(t) = \frac{1}{t} \hat A_1 + \hat A_0
+    \end{equation*}
+    Protože ale požadujeme, aby byl časový vývoj systému spojitý a $\hat A(t) \, t$ bylo v čase $t=0$ nulové, musí nutně platit $\hat A_1 = 0$. Platí tedy $\hat A(t) = \hat A_0 = \konst$ a konečně $\hat H = \hat A$.
 \end{proof}
 
 \begin{definition}[Stacionární stav]
