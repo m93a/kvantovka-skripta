@@ -151,7 +151,7 @@ Nechť je dynamika systému nezávislá na čase, potom platí tzv. \textit{čas
 $$ \i \; \dd{}{t} \! \ket{\psi(t)} = \hat{H}(t) \ket{\psi(t)} $$
 
 \underline{Důkaz:}
-Víme, že platí $$\ket{\psi(t)} = \hat{U}(t) \ket{\psi} = \e{-\i \, \hat{H}(t) \, t} \ket{\psi},$$ nyní rovnici zderivujeme podle času $$\dd{}{t} \ket{\psi(t)} = -\i \, \hat{H}(t) \e{-\i \, \hat{H}(t) \, t} \ket{\psi} = -\i \, \hat{H}(t) \ket{\psi(t)}.$$
+Víme, že platí $$\ket{\psi(t)} = \hat{U}(t) \ket{\psi} = \e{-\i \, \hat{H}(t) \, t} \ket{\psi},$$ nyní rovnici zderivujeme podle času $$\dd{}{t} \ket{\psi(t)} = -\i \, \hat{H}(t) \; \e{-\i \, \hat{H}(t) \, t} \ket{\psi} = -\i \, \hat{H}(t) \ket{\psi(t)}.$$
 
 \vspace{2em}
 \underline{Definice:}
@@ -159,13 +159,14 @@ Mějme stav $\ket{\psi}$, pro který platí $$\abs{\braket{\psi}{\psi(t)}}^2 = 1
 
 \vspace{2em}
 \underline{Důsledek:}
-Pro každý stacionární stav existuje $E(t) \in \R$, že $$\ket{\psi(t)} = \e{-\i \, E(t)} \ket{\psi},$$ totiž $$\abs{\braket{\psi}{\psi}}^2 = 1 = \abs{\braket{\psi}{\psi(t)}}^2 = \abs{\bra{\psi} \hat{U}(t) \ket{\psi}}^2,$$ $$\braket{\psi}{\psi} = \bra{\psi} \hat{U}(t) \ket{\psi} \e{-\i E(t)},$$ $$\hat{U}(t) = \e{-\i E(t)}.$$
+Pro každý stacionární stav existuje $E(t) \in \R$, že $$\ket{\psi(t)} = \e{-\i \, E(t) \, t} \ket{\psi},$$ totiž $$\abs{\braket{\psi}{\psi}}^2 = 1 = \abs{\braket{\psi}{\psi(t)}}^2 = \abs{\bra{\psi} \hat{U}(t) \ket{\psi}}^2,$$ $$\braket{\psi}{\psi} = \bra{\psi} \hat{U}(t) \ket{\psi} \e{\i s(t)},$$
+kde $s(t)$ je nějaká reálná funkce. Porovnáním stran dostaneme $$\hat{U}(t) \ket{\psi} = \e{-\i s(t)} \ket{\psi}.$$ Z toho mj. plyne, že $s(0)=0$, můžeme tedy zavést $E(t) = s(t) \, t$, tedy $$\hat{U}(t) = \e{-\i \, E(t) \, t}.$$
 
 \vspace{2em}
 \underline{Věta:}
 Nechť je dynamika systému nezávislá na čase, $\hat{H}(t) = \konst$ a $\ket{\psi}$ je stacionární stav, potom platí tzv. \textit{bezčasová Schrödingerova rovnice} (TISE): $$\hat{H} \ket{\psi} = E \ket{\psi}.$$
 
 \underline{Důkaz:}
-Do časové Schrödingerovy rovnice dosadíme časový vývoj stacionárního stavu: $$\i \dd{}{t} \e{-\i E(t)} \ket{\psi} = \hat{H} \e{-\i E(t)} \ket{\psi},$$ a protože $E(t) = \konst$ (PROČ?), $$\e{-\i E} E \ket{\psi} = \e{-\i E(t)} \hat{H} \ket{\psi},$$ $$E \ket{\psi} = \hat{H} \ket{\psi}.$$
+Do časové Schrödingerovy rovnice dosadíme časový vývoj stacionárního stavu: $$\i \dd{}{t} \e{-\i \, E(t) \, t} \ket{\psi} = \hat{H} \e{-\i \, E(t) \, t} \ket{\psi},$$ a protože $E(t) = \konst$ (PROČ?), $$\e{-\i E t} E \ket{\psi} = \e{-\i E t} \hat{H} \ket{\psi},$$ $$E \ket{\psi} = \hat{H} \ket{\psi}.$$
 
 \end{document}
