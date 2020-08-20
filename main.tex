@@ -254,19 +254,69 @@ Proč nás tolik zajímá zrovna tvar $\e{-\i \, \hat A(t) \, t}$ zjistíme v z�
     Takový stav nazýváme stacionárním stavem systému.
 \end{definition}
 
-\pagebreak
-NÁSLEDUJE FUJ FUJ
+\begin{lemma}
+    Mějme stacionární stav $\ket{\psi(t)}$, potom existuje taková funkce $E(t) \in \R$, že
+    \begin{equation*}
+        \ket{\psi(t)} = \e{-\i \, E(t) \, t} \ket{\psi}.
+    \end{equation*}
+\end{lemma}
+\begin{proof}
+    Z definice stacionárního stavu máme
+    \begin{equation*}
+        \abs{\braket{\psi}{\psi}}^2
+        = 1
+        = \abs{\braket{\psi}{\psi(t)}}^2
+        = \abs{\bra{\psi} \hat{U}(t) \ket{\psi}}^2.
+    \end{equation*}
+    Opět z rovnosti absolutních hodnot vyplývá, že existuje funkce $s(t) \in \R$ taková, že
+    \begin{align*}
+        \braket{\psi}{\psi}
+        &= \bra{\psi} \hat{U}(t) \ket{\psi} \e{\i s(t)},
+        \\
+        \bra{\psi} \e{-\i s(t)} \ket{\psi}
+        &= \bra{\psi} \hat{U}(t) \ket{\psi}.
+    \end{align*}
+    Porovnáním stran dostaneme
+    \begin{equation*}
+        \hat U(t) = \e{-\i s(t)} \, \1.
+    \end{equation*}
+    Protože navíc musí platit, že $\hat U(0) = \1$, můžeme si již tradičně zavést funkci $E(t) = s(t) / t$. Po dosazení získáme
+    \begin{equation*}
+        \hat{U}(t) = \e{-\i \, E(t) \, t} \, \1.
+    \end{equation*}
+\end{proof}
 
-\vspace{2em}
-\underline{Důsledek:}
-Pro každý stacionární stav existuje $E(t) \in \R$, že $$\ket{\psi(t)} = \e{-\i \, E(t) \, t} \ket{\psi},$$ totiž $$\abs{\braket{\psi}{\psi}}^2 = 1 = \abs{\braket{\psi}{\psi(t)}}^2 = \abs{\bra{\psi} \hat{U}(t) \ket{\psi}}^2,$$ $$\braket{\psi}{\psi} = \bra{\psi} \hat{U}(t) \ket{\psi} \e{\i s(t)},$$
-kde $s(t)$ je nějaká reálná funkce. Porovnáním stran dostaneme $$\hat{U}(t) \ket{\psi} = \e{-\i s(t)} \ket{\psi}.$$ Z toho mj. plyne, že $s(0)=0$, můžeme tedy zavést $E(t) = s(t) \, t$, tedy $$\hat{U}(t) = \e{-\i \, E(t) \, t}.$$
-
-\vspace{2em}
-\underline{Věta:}
-Nechť je dynamika systému nezávislá na čase, $\hat{H}(t) = \konst$ a $\ket{\psi}$ je stacionární stav, potom platí tzv. \textit{bezčasová Schrödingerova rovnice} (TISE): $$\hat{H} \ket{\psi} = E \ket{\psi}.$$
-
-\underline{Důkaz:}
-Do časové Schrödingerovy rovnice dosadíme časový vývoj stacionárního stavu: $$\i \dd{}{t} \e{-\i \, E(t) \, t} \ket{\psi} = \hat{H} \e{-\i \, E(t) \, t} \ket{\psi},$$ a protože $E(t) = \konst$ (PROČ?), $$\e{-\i E t} E \ket{\psi} = \e{-\i E t} \hat{H} \ket{\psi},$$ $$E \ket{\psi} = \hat{H} \ket{\psi}.$$
+\begin{theorem}[TISE]
+    Nechť jsou dynamika systému a hamiltonián $\hat H$ nezávislé na čase. Potom jsou následující výroky ekvivalentní:
+    \begin{enumerate}
+        \item Stav $\ket{\psi(t)}$ je stacionární
+        \item Platí tzv. bezčasová Schrödingerova rovnice
+    \end{enumerate}
+    \begin{equation*}
+        \hat{H} \ket{\psi} = E \ket{\psi}.
+    \end{equation*}
+\end{theorem}
+\begin{proof}
+    Nejprve ukážeme $1 \Rightarrow 2$. Ze stacionarity stavu $\ket{\psi(t)}$ vyplývá
+    \begin{equation*}
+        \ket{\psi(t)} = \e{-\i \, E(t) \, t} \ket{\psi}.
+    \end{equation*}
+    Naopak z $\hat H(t) = \konst$ plyne
+    \begin{equation*}
+        \ket{\psi(t)} = \e{-\i \, \hat H \, t} \ket{\psi}.
+    \end{equation*}
+    Porovnáním zjistíme, že $E(t)$ musí být konstantní. Dosazením do časové Schrödingerovy rovnice potom dostaneme
+    \begin{align*}
+        \i \; \dd{}{t} \! \e{-\i E t} \ket{\psi}
+        &= \hat H \; \e{-\i E t} \ket{\psi}
+        \\
+        \i \; (-\i) \; E \; \e{-\i E t} \ket{\psi}
+        &= \e{-\i E t} \; \hat H \ket{\psi}
+        \\
+        E \ket{\psi}
+        &= \hat H \ket{\psi}
+    \end{align*}
+    Nyní dokážeme implikaci opačným směrem. TODO
+\end{proof}
 
 \end{document}
