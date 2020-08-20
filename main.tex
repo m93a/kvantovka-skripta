@@ -220,8 +220,9 @@ Proč nás tolik zajímá zrovna tvar $\e{-\i \, \hat A(t) \, t}$ zjistíme v z�
     Operátor $\hat H(t)$ z předchozí věty nazýváme hamiltonián.
 \end{definition}
 
-\begin{corollary}
-    Nechť je dynamika systému nezávislá na čase a hamiltonián $\hat H$ je konstantní, potom
+\begin{corollary}[Evoluce skleronomního systému]
+    \label{evoluce-skleronomniho-systemu}
+    Nechť je dynamika systému nezávislá na čase a hamiltonián $\hat H(t)$ je konstantní, potom
     \begin{equation*}
         \ket{\psi(t)} = \e{-\i \, \hat{H} \, t} \ket{\psi}.
     \end{equation*}
@@ -301,7 +302,7 @@ Proč nás tolik zajímá zrovna tvar $\e{-\i \, \hat A(t) \, t}$ zjistíme v z�
     \begin{equation*}
         \ket{\psi(t)} = \e{-\i \, E(t) \, t} \ket{\psi}.
     \end{equation*}
-    Naopak z $\hat H(t) = \konst$ plyne
+    Naopak z $\hat H(t) = \konst$ plyne (viz \ref{evoluce-skleronomniho-systemu})
     \begin{equation*}
         \ket{\psi(t)} = \e{-\i \, \hat H \, t} \ket{\psi}.
     \end{equation*}
@@ -316,7 +317,27 @@ Proč nás tolik zajímá zrovna tvar $\e{-\i \, \hat A(t) \, t}$ zjistíme v z�
         E \ket{\psi}
         &= \hat H \ket{\psi}
     \end{align*}
-    Nyní dokážeme implikaci opačným směrem. TODO
+
+    Nyní dokážeme implikaci opačným směrem. Opět použijeme výsledek z \ref{evoluce-skleronomniho-systemu}, tedy pokud dynamika systému a hamiltonián nezávisí na čase, potom platí:
+    \begin{equation*}
+        \ket{\psi(t)} = \e{\i \hat H t} \ket{\psi}
+    \end{equation*}
+    Rozepíšeme exponenciálu operátoru z definice a použijeme platnost bezčasové Schrödingerovy rovnice
+    \begin{equation*}
+        \ket{\psi(t)}
+        = \e{-\i \hat H t} \ket{\psi}
+        = \sum_{n = 0}^\infty \frac{1}{n!} (-\i \hat H t)^n \ket{\psi}
+        = \sum_{n = 0}^\infty \frac{1}{n!} (-\i t)^n \hat H^n \ket{\psi}
+        = \sum_{n = 0}^\infty \frac{1}{n!}(-\i t)^n E^n \ket{\psi}
+        = \e{-\i E t} \ket{\psi}
+    \end{equation*}
+    Vidíme, že skutečně
+    \begin{equation*}
+        \abs{\braket{\psi}{\psi(t)}}^2
+        = \abs{\bra{\psi} \; \e{-\i E t} \ket{\psi}}^2
+        = \abs{\braket{\psi}{\psi}}^2
+        = 1
+    \end{equation*}
 \end{proof}
 
 \end{document}
