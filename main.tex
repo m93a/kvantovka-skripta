@@ -23,6 +23,9 @@
 \usepackage{accents}
 \usepackage{calc}
 
+% aby se \subsection nečíslovalo
+\setcounter{secnumdepth}{1}
+
 % no page break
 \newenvironment{absolutelynopagebreak}
   {\par\nobreak\vfil\penalty0\vfilneg
@@ -137,6 +140,11 @@
 \maketitle
 
 \section{Vektorový formalismus}
+
+\subsection{Fyzikální motivace}
+TODO.
+
+\subsection{Matematický framework}
 Je zvykem popisovat kvantové systémy pomocí abstraktních vektorů z nějakého Hilbertova prostoru, jehož dimenze závisí na modelovaném problému. V praxi pracujeme s všemožnými prostory od $\C^2$ pro popis nejjednoduších dvouhladinových systémů přes $W^{1,2}(\R)$ pro popis volné částice až po neseparabilní prostory. Kvantové stavy jsou představovány jednotkovými vektory z těchto prostorů.
 
 \begin{definition}[Evoluční operátor]
@@ -336,8 +344,20 @@ Proč nás tolik zajímá zrovna tvar $\e{-\i \, \hat A(t) \, t}$ zjistíme v z�
         \abs{\braket{\psi}{\psi(t)}}^2
         = \abs{\bra{\psi} \; \e{-\i E t} \ket{\psi}}^2
         = \abs{\braket{\psi}{\psi}}^2
-        = 1
+        = 1.
     \end{equation*}
 \end{proof}
+
+\subsection{Příklady použití}
+TODO.
+
+\section{Feynmanův integrál}
+TODO.
+\begin{itemize}
+    \item Fyzikální motivace
+    \item Wienerův proces
+    \item Wienerova míra a integrál
+    \item Feynmanův integrál
+\end{itemize}
 
 \end{document}
