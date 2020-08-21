@@ -119,6 +119,8 @@
 \def\C{\mathbb{C}}
 \def\H{\mathcal{H}}
 
+\def\domain{\mathcal{D}}
+
 \def\1{\hat{I}}
 
 \newcommand{\bigdot}[1]{\accentset{\bullet}{#1}}
@@ -146,7 +148,7 @@
 \section{Hrátky s operátory}
 \begin{lemma}[Polarizační identita]
     \label{polarizacni-identita}
-    Nehcť $\H$ je komplexní Hilbertův prostor, potom pro všechny $\psi, \phi \in \H$ platí
+    Nechť $\H$ je komplexní Hilbertův prostor, potom pro všechny $\psi, \phi \in \H$ platí
     \begin{equation*}
         \innerprod{\psi}{\phi}_\H
         =
@@ -172,7 +174,7 @@
 
 \begin{lemma}[O unitaritě operátoru zachovávajícího normu]
     \label{unitarni-zachova-normu}
-    Mějme komplexní Hilbertův prostor $\H$ a na něm lineární operátor $\hat T$ definovaný na $\mathrm{D}(\hat T) \subset \H$, potom platí
+    Mějme komplexní Hilbertův prostor $\H$ a na něm lineární operátor $\hat T$ definovaný na $\domain(\hat T) \subset \H$, potom platí
     \begin{equation*}
         \norm{\hat T \phi} = \norm{\phi}
         \;\forall \phi \in \mathrm{D}(\hat T)
@@ -253,7 +255,7 @@ Je zvykem popisovat kvantové systémy pomocí abstraktních vektorů z nějaké
     \end{equation*}
     Z \ref{unitarni-zachova-normu} potom víme, že operátor, který zachovává normu, je nutně unitární.
 
-    Nakonec dokážeme ekvivalenci $2 \Leftrightarrow 3$. Z lineární algebry víme, že pro každý unitární operátor $\hat U$ existuje samoadjugovaný operátor $\hat B$ takový, že $\hat U = \e{ \i \hat B}$, a naopak, že pro každý samoadjugovaný operátor $\hat B$ je výraz $\e{ \i \hat B}$ unitární. Pro evoluční operátor tedy máme
+    Nakonec dokážeme ekvivalenci $2 \Leftrightarrow 3$. Z lineární algebry víme, že pro každý unitární operátor $\hat U$ existuje samoadjugovaný operátor $\hat B$ takový, že $\hat U = \e{ \i \hat B}$, a naopak, že pro každý samoadjugovaný operátor $\hat B$ je výraz $\e{ \i \hat B}$ unitární. (TODO $\dim = \infty$) Pro evoluční operátor tedy máme
     \begin{equation*}
         \hat U(t) = \e{\i \, \hat B(t)}.
     \end{equation*}
@@ -272,6 +274,7 @@ Proč nás tolik zajímá zrovna tvar $\e{-\i \, \hat A(t) \, t}$ zjistíme v z�
     \begin{equation*}
         \i \; \dd{}{t} \! \ket{\psi(t)} = \hat H(t) \ket{\psi(t)}
     \end{equation*}
+    pro všechny $\ket{\psi} \in \domain(\hat H)$.
 \end{theorem}
 \begin{proof}
     Z nezávislosti dynamiky systému na čase víme, že platí
@@ -403,7 +406,7 @@ Proč nás tolik zajímá zrovna tvar $\e{-\i \, \hat A(t) \, t}$ zjistíme v z�
     \begin{equation*}
         \ket{\psi(t)} = \e{\i \hat H t} \ket{\psi}
     \end{equation*}
-    Rozepíšeme exponenciálu operátoru z definice a použijeme platnost bezčasové Schrödingerovy rovnice
+    Rozepíšeme exponenciálu operátoru z definice (FUJ) a použijeme platnost bezčasové Schrödingerovy rovnice
     \begin{equation*}
         \ket{\psi(t)}
         = \e{-\i \hat H t} \ket{\psi}
