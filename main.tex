@@ -146,7 +146,7 @@
 \section{Hrátky s operátory}
 \begin{lemma}[Polarizační identita]
     \label{polarizacni-identita}
-    Nehcť $\H$ je Hilbertův prostor nad $\C$, potom pro všechny $\psi, \phi \in \H$ platí
+    Nehcť $\H$ je komplexní Hilbertův prostor, potom pro všechny $\psi, \phi \in \H$ platí
     \begin{equation*}
         \innerprod{\psi}{\phi}_\H
         =
@@ -172,7 +172,7 @@
 
 \begin{lemma}[O unitaritě operátoru zachovávajícího normu]
     \label{unitarni-zachova-normu}
-    Mějme Hilbertův prostor $\H$ nad $\C$ a na něm lineární operátor $\hat T$ definovaný na $\mathrm{D}(\hat T) \subset \H$, potom platí
+    Mějme komplexní Hilbertův prostor $\H$ a na něm lineární operátor $\hat T$ definovaný na $\mathrm{D}(\hat T) \subset \H$, potom platí
     \begin{equation*}
         \norm{\hat T \phi} = \norm{\phi}
         \;\forall \phi \in \mathrm{D}(\hat T)
@@ -243,15 +243,15 @@ Je zvykem popisovat kvantové systémy pomocí abstraktních vektorů z nějaké
     \end{equation*}
     Implikace $1 \Leftarrow 2$ je hned zřejmá, nyní dokážeme implikaci $1 \Rightarrow 2$.
 
-    V rovnici máme druhé mocniny kladných čísel, můžeme tedy BÚNO odmocnit.
+    Protože rovnost platí pro každé $\ket{\psi}, \ket{\phi}$, můžeme volit i $\ket{\psi} = \ket{\phi}$:
     \begin{equation*}
-        \abs{\braket{\psi}{\phi}} = \abs{\bra{\psi} \, \hat{U}^+\!(t) \; \hat{U}(t) \, \ket{\phi}}
+        \norm{\ket\psi}^2
+        \equiv \braket{\psi}{\psi}
+        = \braket{\psi(t)}{\psi(t)}
+        \equiv \norm{\ket{\psi(t)}}^2
+        = \norm{\hat U \ket\psi}^2
     \end{equation*}
-    Z rovnosti absolutních hodnot vyplývá, že se vnitřky rovnají až na nějaké jednotkové komplexní číslo, tedy existuje takové $s(t) \in \R$, že
-    \begin{equation*}
-        \braket{\psi}{\phi} = \bra{\psi} \, \hat{U}^+\!(t) \; \hat{U}(t) \, \ket{\phi} \; \e{\i \, s(t)}.
-    \end{equation*}
-    Vidíme ale, že obecně $\e{\i \, s(t)}$ nejde rozdělit mezi $\hat{U}$ a $\hat{U}^+$: každé komplexní číslo, kterým vynásobíme $\hat{U}$ se nám v $\hat{U}^+$ vrátí jako komplexně sdružené. Musí tedy platit $\e{\i \, s(t)} = \pm 1$. Protože navíc požadujeme, aby rovnost platila v čase $t=0$ a vývoj systému byl v čase spojitý, zbývá nám pouze $+1$. Pro evoluční operátor z toho plyne $$\braket{\psi}{\phi} = \bra{\psi} \, \hat{U}^+\!(t) \; \hat{U}(t) \, \ket{\phi},$$ $$\hat{U}^+ \!(t) \; \hat{U}(t) = \1,$$ tedy pro každé $t$ je evoluční operátor unitární.
+    Z \ref{unitarni-zachova-normu} potom víme, že operátor, který zachovává normu, je nutně unitární.
 
     Nakonec dokážeme ekvivalenci $2 \Leftrightarrow 3$. Z lineární algebry víme, že pro každý unitární operátor $\hat U$ existuje samoadjugovaný operátor $\hat B$ takový, že $\hat U = \e{ \i \hat B}$, a naopak, že pro každý samoadjugovaný operátor $\hat B$ je výraz $\e{ \i \hat B}$ unitární. Pro evoluční operátor tedy máme
     \begin{equation*}
