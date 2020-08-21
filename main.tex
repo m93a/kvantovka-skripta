@@ -109,11 +109,15 @@
 \newcommand{\ket}[1]{\left| #1 \right>}
 \newcommand{\braket}[2]{\left< #1 \middle| #2 \right>}
 
+\newcommand{\innerprod}[2]{\big( #1, #2 \big)}
+\newcommand{\duality}[2]{\big< #1, #2 \big>}
+
 \newcommand{\e}[1]{\const{e}^{#1}}
 \renewcommand{\i}{\const{i}}
 
 \def\R{\mathbb{R}}
 \def\C{\mathbb{C}}
+\def\H{\mathcal{H}}
 
 \def\1{\hat{I}}
 
@@ -138,6 +142,75 @@
 \date{\today}
 
 \maketitle
+
+\section{Hrátky s operátory}
+\begin{lemma}[Polarizační identita]
+    \label{polarizacni-identita}
+    Nehcť $\H$ je Hilbertův prostor nad $\C$, potom pro všechny $\psi, \phi \in \H$ platí
+    \begin{equation*}
+        \innerprod{\psi}{\phi}_\H
+        =
+        \frac{1}{4}
+        \left(
+            \norm{\psi + \phi}^2
+            - \norm{\psi - \phi}^2
+            + \i \norm{\psi + \i \phi}^2
+            - \i \norm{\psi - \i \phi}^2
+        \right)
+    \end{equation*}
+\end{lemma}
+\begin{proof}
+    Rozepsáním pomocí vztahu $\norm{\phi}^2 = \innerprod{\phi}{\phi}$ lze snadno ukázat, že
+    \begin{equation*}
+        \norm{\psi + \phi}^2 - \norm{\psi - \phi}^2
+        = 4 \Re \, \innerprod{\psi}{\phi},
+        \quad
+        \norm{\psi + \i\phi}^2 - \norm{\psi - \i\phi}^2
+        = 4 \Im \, \innerprod{\psi}{\phi}.
+    \end{equation*}
+\end{proof}
+
+\begin{lemma}[O unitaritě operátoru zachovávajícího normu]
+    \label{unitarni-zachova-normu}
+    Mějme Hilbertův prostor $\H$ nad $\C$ a na něm lineární operátor $\hat T$ definovaný na $\mathrm{D}(\hat T) \subset \H$, potom platí
+    \begin{equation*}
+        \norm{\hat T \phi} = \norm{\phi}
+        \;\forall \phi \in \mathrm{D}(\hat T)
+        \iff
+        \hat T \text{ je unitární.}
+    \end{equation*}
+\end{lemma}
+\begin{proof}
+    % https://math.stackexchange.com/q/1626701
+    Implikaci „$\Leftarrow$“ ukážeme snadno:
+    \begin{equation*}
+        \norm{\hat T \phi}^2
+        = \innerprod{\hat T \phi}{\hat T \phi}
+        = \innerprod{\hat T^+ \hat T \phi}{\phi}
+        = \innerprod{\phi}{\phi}
+        = \norm{\phi}^2
+    \end{equation*}
+    Implikace opačným směrem potom plyne z \ref{polarizacni-identita}. Buďte $\psi, \phi \in \H$, ukážeme, že $T$ zachovává skalární součin:
+    \begin{align*}
+        4 \, \innerprod{\hat T \psi}{\hat T \phi}
+        &= \norm{\hat T \psi + \hat T \phi}^2
+        - \norm{\hat T \psi - \hat T \phi}^2
+        + \i \norm{\hat T \psi - \i \hat T \phi}^2
+        - \i \norm{\hat T \psi + \i \hat T \phi}^2
+        \\[10pt]
+        &= \norm{\hat T(\psi + \phi)}^2
+        - \norm{\hat T(\psi - \phi)}^2
+        + \i \norm{\hat T(\psi - \i \phi)}^2
+        - \i \norm{\hat T(\psi + \i \phi)}^2
+        \\[10pt]
+        &= \norm{\psi + \phi}^2
+        - \norm{\psi - \phi}^2
+        + \i \norm{\psi - \i \phi}^2
+        - \i \norm{\psi + \i \phi}^2
+        = 4 \, \innerprod{\psi}{\phi}
+    \end{align*}
+\end{proof}
+
 
 \section{Vektorový formalismus}
 
