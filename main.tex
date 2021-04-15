@@ -1,15 +1,17 @@
 % !TEX program = xelatex
 
-\documentclass[10pt,a4paper]{article}
+\documentclass[10pt,a4paper]{report}
 \usepackage[top = 1.5cm, bottom = 1.5cm, left = 1.5cm, right = 1.5cm]{geometry}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
 
 \usepackage{titling}
 \usepackage[czech]{babel}
 \usepackage{graphicx}
 \usepackage{lmodern}
-\usepackage{hyperref}
+\usepackage[unicode]{hyperref}
 \usepackage{setspace}
-\usepackage{csvsimple}
 
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -20,8 +22,21 @@
 \delimitershortfall=-1pt
 
 \usepackage{mathtools}
+\usepackage{mathrsfs}
 \usepackage{accents}
 \usepackage{calc}
+
+% import obrázků z Inkscape
+% podle návodu na https://castel.dev/post/lecture-notes-2/
+\usepackage{import}
+\usepackage{xifthen}
+\usepackage{pdfpages}
+\usepackage{transparent}
+
+\newcommand{\incfig}[2][\columnwidth]{%
+    \def\svgwidth{#1}
+    \import{./figures/}{#2.pdf_tex}
+}
 
 % aby se \subsection nečíslovalo
 \setcounter{secnumdepth}{1}
@@ -51,6 +66,8 @@
 \LetLtxMacro{\oldhbar}{\hbar}
 \renewcommand*{\hbar}{{\mathpalette\hbaraux\relax\mathrm{h}}}
 \newcommand*{\hbaraux}[2]{\sbox0{\mathsurround=0pt$#1\mathchar'26$}\mkern-1mu\lower.07\ht0\box0\mkern-8mu}
+
+\newcommand{\h}{\mathrm{h}}
 
 
 \newtheorem{theorem}{Věta}[section]
@@ -113,10 +130,11 @@
 \newcommand{\duality}[2]{\big< #1, #2 \big>}
 
 \newcommand{\e}[1]{\const{e}^{#1}}
-\renewcommand{\i}{\const{i}}
+\newcommand{\I}{\const{i}}
 
 \def\R{\mathbb{R}}
 \def\C{\mathbb{C}}
+\def\K{\mathbb{K}}
 \def\H{\mathcal{H}}
 
 \def\domain{\mathcal{D}}
@@ -145,6 +163,108 @@
 
 \maketitle
 
+\section{Osnova}
+\begin{enumerate}
+    \item konečnědimenzionální QM
+    \begin{enumerate}
+        \item spin, polarizace
+        \item vícestavové systémy
+        \item konečněrozměrné Hilbertovy prostory
+        \item matice hustoty, pozorovatelné, matice evoluce
+        \item funkcionální, tenzorová a braketová notace
+        \item řešené příklady
+        \item Bellova nerovnost
+        \item provázání, dekoherence
+        \item paradox měření
+    \end{enumerate}
+    
+    \item Feynmanova formulace QM
+    \begin{enumerate}
+        \item shrnutí teoretické mechaniky, Hamiltonův formalismus
+        \item dvouštěrbinový experiment a náznak Feynmanova integrálu
+        \item stochastické procesy, funkcionální integrál
+        \item Feynmanova formulace QM
+        \item řešené příklady: volná částice, dvouštěrbinový experiment
+    \end{enumerate}
+    
+    \item funkcionální formulace QM
+    \begin{enumerate}
+        \item úvod do funkcionální analýzy
+        \item samosdruženost, spektrum, spektrální míra
+        \item direktní integrál
+        \item Schrödingerova formulace QM a její ekvivalence Feynmanově
+        \item abstraktní funkcionální formulace, souřadnice, reprezentace
+        \item funkcionální, tenzorová a braketová notace
+        \item energie, hybnost, poloha
+        \item částice v krabici
+        \item volná částice
+        \item obdélníkový potenciál, kvantové tunelování
+        \item harmonický oscilátor, žebříkový operátor, klasicky zakázaná oblast
+        \item relace neurčitosti
+        \item koherentní stav, přeúplná báze
+        \item třírozměrné problémy, vektory operátorů
+        \item izotropní oscilátor, moment hybnosti
+        \item elektromagnetismus
+        \item atom vodíku
+        \item řešené příklady
+    \end{enumerate}
+    
+    \item unitární transformace a symetrie
+    \begin{enumerate}
+        \item grupy, ireducibilní reprezentace, Lieovy grupy
+        \item hybnost jako generátor translací
+        \item poloha jako generátor urychlení
+        \item Weylovy relace, Stone-von Neumannův teorém
+        \item moment hybnosti jako generátor rotace
+        \item skládání momentů hybnosti, Clebsch-Gordanovy koef.
+        \item sférické tenzory, Wignerova $\mathscr{D}$-funkce, Wigner-Eckartův teorém
+    \end{enumerate}
+    
+    \item teorie distribucí v QM
+    \begin{enumerate}
+        \item shrnutí teorie distribucí jedné proměnné
+        \item distribuce dvou proměnných, Schwartzův teorém
+        \item jaderný prostor, Gelfandův triplet
+        \item funkcionální, tenzorová a braketová notace
+        \item řešené příklady: potenciály s deltou
+        \item slabé vlastní funkce, přeúplné báze
+    \end{enumerate}
+\end{enumerate}
+
+\pagebreak
+
+\chapter{Úvod}
+
+\pagebreak
+
+\chapter{Konečněrozměrná QM}\label{chapter-konecnerozmerna-qm}
+V této kapitole se budeme zabývat nejjednodušším typem kvantových systémů: systémy o konečné dimenzi. Dimenze kvantového systému, zhruba řečeno, odpovídá počtu různých stavů, ve kterých se systém může nacházet. Tento postup neodpovídá historickému vývoji kvantové mechaniky – jevy, které se fyzici na začátku 20. století urputně snažili vysvětlit, totiž odpovídají nekonečněrozměrným systémům, proto byly budované kvantové teorie hned od počátku nekonečněrozměrné. Začít nejprve s konečněrozměrnou kvantovou mechanikou s sebou ovšem nese jednu velikou výhodu: bude nám stačit matematika, kterou už známe, a tak se budeme moci plně soustředit na \textit{fyzikální} podivnosti, které na nás v kvantovém světě číhají. Autor doufá, že bolesti hlavy a existenciální krize ve čtenáři vyvolané fyzikálními podivnostmi opadnou ještě před začátkem kapitoly \ref{chapter-vonneumann}, v opačném případě doporučuje knihu odložit a vrátit se k ní po zdravé pauze v řádu týdnů či desetiletí.
+
+\section{První krůčky ke kvantové fyzice}
+V klasické fyzice 19. století se předpokládalo, že předávání energie mezi různými tělesy je spojitý proces. Tuto představu poprvé naboural Max Planck, když roku 1900 ve svém vysvětlení spektra záření černého tělesa použil předpoklad, že tělesa mohou vydávat tepelné záření pouze po diskrétních \textit{balíčcích} o energii $E = \h\nu$, takzvaných \textit{kvantech}. O pět let později se připojil Albert Einstein, který vysvětlil fotoefekt pomocí předpokladu, že po diskrétních kvantech probíhá nejen emise, ale i absorbce záření. A roku 1913 Niels Bohr vytvořil model atomu, který vysvětloval diskrétní absorbční a emisní spektrální čáry, ale vyžadoval, aby elektrony mohly obíhat kolem jádra pouze v určitých diskrétních energetických hladinách. Bohrův model atomu měl ovšem závažné nedostatky – z pohledu klasické fyziky neexistoval mechanismus, který by elektrony v daných hladinách držel, naopak klasický elektromagnetismus předpovídá, že obíhající elektrony musí vyzařovat energii a spadnout do jádra. „Kvantování“ tou dobou byla pouze heuristika, žádná jednotná kvantová teorie spojující tyto tři jevy neexistovala.
+
+\section{Sternův-Gerlachův experiment}
+Inspirován Bohrovým modelem, Otto Stern se rozhodl podrobně zkoumat vlastnosti atomů. Obíhají-li elektrony skutečně kolem jádra, jak říká Bohr, měly by indukovat magnetické pole přímo úměrné jejich momentu hybnosti. Roku 1922 společně s Waltherem Gerlachem sestavil experimentální aparát, který měl právě tento jev otestovat.
+
+\begin{figure}[ht]
+    \centering
+    \incfig[8cm]{stern-gerlach}
+    \caption{Sternův-Gerlachův experiment. 1) Pec, ze které vylétávají atomy stříbra; 2) Deflekční magnet; 3) Stínítko}
+    \label{fig:stern-gerlach-vanilla}
+\end{figure}
+
+Do vakuové komory umístili 
+
+
+\pagebreak
+
+\chapter{Dráhový integrál}\label{chapter-feynman}
+
+\pagebreak
+
+\chapter{Funkcionální QM}\label{chapter-vonneumann}
+
+\chapter{Legacy nesmysly}
 \section{Hrátky s operátory}
 \begin{lemma}[Polarizační identita]
     \label{polarizacni-identita}
@@ -156,8 +276,8 @@
         \left(
             \norm{\psi + \phi}^2
             - \norm{\psi - \phi}^2
-            + \i \norm{\psi + \i \phi}^2
-            - \i \norm{\psi - \i \phi}^2
+            + \I \norm{\psi + \I \phi}^2
+            - \I \norm{\psi - \I \phi}^2
         \right)
     \end{equation*}
 \end{lemma}
@@ -167,7 +287,7 @@
         \norm{\psi + \phi}^2 - \norm{\psi - \phi}^2
         = 4 \Re \, \innerprod{\psi}{\phi},
         \quad
-        \norm{\psi + \i\phi}^2 - \norm{\psi - \i\phi}^2
+        \norm{\psi + \I\phi}^2 - \norm{\psi - \I\phi}^2
         = 4 \Im \, \innerprod{\psi}{\phi}.
     \end{equation*}
 \end{proof}
@@ -197,22 +317,86 @@
         4 \, \innerprod{\hat T \psi}{\hat T \phi}
         &= \norm{\hat T \psi + \hat T \phi}^2
         - \norm{\hat T \psi - \hat T \phi}^2
-        + \i \norm{\hat T \psi - \i \hat T \phi}^2
-        - \i \norm{\hat T \psi + \i \hat T \phi}^2
+        + \I \norm{\hat T \psi - \I \hat T \phi}^2
+        - \I \norm{\hat T \psi + \I \hat T \phi}^2
         \\[10pt]
         &= \norm{\hat T(\psi + \phi)}^2
         - \norm{\hat T(\psi - \phi)}^2
-        + \i \norm{\hat T(\psi - \i \phi)}^2
-        - \i \norm{\hat T(\psi + \i \phi)}^2
+        + \I \norm{\hat T(\psi - \I \phi)}^2
+        - \I \norm{\hat T(\psi + \I \phi)}^2
         \\[10pt]
         &= \norm{\psi + \phi}^2
         - \norm{\psi - \phi}^2
-        + \i \norm{\psi - \i \phi}^2
-        - \i \norm{\psi + \i \phi}^2
+        + \I \norm{\psi - \I \phi}^2
+        - \I \norm{\psi + \I \phi}^2
         = 4 \, \innerprod{\psi}{\phi}
     \end{align*}
 \end{proof}
 
+
+\section{Notace}
+\subsection{Funkcionální notace}
+TODO.
+
+\subsection{Tenzorová notace}
+\begin{definition}[Tenzor, abstraktní indexy]
+    Buď $\H_\K$ separabilní reálný/komplexní Hilbertův prostor a ${\H_\K}'$ jeho duální prostor. Mějme multilineární zobrazení $T$ (nemusí být omezené), které jako argumenty bere $m$ prvků $\H_\K$ a $n$ prvků~${\H_\R}'$.
+    \begin{align*}
+        T(\alpha, \beta, ..., A, B, ...): (\H_\K)^m \times ({\H_\K}')^n \to \K
+    \end{align*}
+    Takové zobrazení nazýváme \textit{tenzorem} řádu $m + n$ a v tenzorové notaci ho značíme:
+    \begin{align*}
+        T
+        \underbrace{\vph{T}_{abc...}}_{\czw{m \text{ písmen}}}
+        \overbrace{\vph{T}^{ijk...}}^{\czw{n \text{ písmen}}}
+    \end{align*}
+    kde $a,b,c,...,i,j,k,...$ jsou libovolná, neopakující se malá písmena latinky. Tato písmena nazýváme (abstraktní) \textit{indexy}.
+\end{definition}
+\begin{theorem}[Vektory jsou tenzory]
+    Buď $\H_\K$ separabilní reálný/komplexní Hilbertův prostor a ${\H_\K}'$ jeho duální prostor. Potom prostor všech omezených (!) tenzorů ${\H_\K}' \to \K$ (tedy těch, které mají jeden index nahoře) je kanonicky izomorfní~$\H_\K$. Navíc prostor omezených tenzorů $\H_\K \to \K$ (těch s jedním indexem dole) je přímo prostor ${\H_\K}'$.
+\end{theorem}
+\begin{definition}[Abstraktní multiindex]
+    Buď ${T_{abc...}}^{ijk...}$ tenzor řádu $m + n$. Definujeme-li formálně $m$-tici $A=(a,b,c,...)$ a $n$-tici $J=(i,j,k,...)$, potom můžeme psát:
+    \begin{align*}
+        {T_{abc...}}^{ijk...}
+        = {T_A}^{ijk...}
+        = {T_{abc...}}^J
+        = {T_A}^J
+    \end{align*}
+    Písmena $A$ a $J$ používáme jako zkratku pro velké množství indexů. Píšeme je velkými písmeny latinky a nazýváme je (abstraktními) \textit{multiindexy}.
+\end{definition}
+\begin{definition}[Tenzorový součin]
+    Buď $\H_\K$ separabilní reálný/komplexní Hilbertův prostor a na něm tenzory ${U_A}^B, {V_C}^D$ a zobrazení $T$ definované předpisem
+    \begin{align*}
+        T(\alpha, \beta, ..., \eta, \theta, ...)
+        = U(\alpha, \beta, ...) \, V(\eta, \theta, ...)
+    \end{align*}
+    Potom $T$ je také tenzor a značíme ho buďto $T=U\otimes V$, anebo abstraktními indexy:
+    \begin{align*}
+        T_A\vph{T}^B\vph{T}_C\vph{T}^D = {U_A}^B \, {V_C}^D
+    \end{align*}
+\end{definition}
+\begin{definition}[Kontrakce]
+    Buď $\H_\K$ separabilní reálný/komplexní Hilbertův prostor s ortonormální Schauderovou bází $\vspace{0.3em}\{ \bm{e}_j \}$. Buď ${\H_\K}'$ prostor duální k $\H_\K$ a na něm báze $\{ \bm{\varepsilon}^j \}$ duální k $\{ \bm{e}_j \}$.  Mějme na těchto prostorech tenzor ${T_{AiB}}^{CjD}$. Definujeme operaci kontrakce:
+    \begin{gather*}
+        {K_{AB}}^{CD} = {T_{AkB}}^{CkD} \\
+        \Updownarrow \\
+        K(\alpha, ..., \beta, ..., \gamma, ..., \delta, ...)
+        = \sum_k T(\alpha, ..., \bm{e}_k, \beta, ..., \gamma, ..., \bm{\varepsilon}^k, \delta, ...)
+    \end{gather*}
+    Tato operace nemusí být pro neomezené tenzory vždy dobře definovaná – suma může divergovat.
+\end{definition}
+\begin{definition}[Metrický tenzor na reálném Hilbertově prostoru]
+    Buď $\H_\R$ separabilní reálný Hilbertův prostor se skalárním součinem $(\cdot, \cdot)$. Tento skalární součin je bilineární zobrazení $(\H_\R)^2 \to \R$, tedy i tenzor. Značíme ho malým písmenem $g$ a nazýváme ho \textit{metrický tenzor}.
+    \begin{gather*}
+        g(\alpha, \beta) = (\alpha, \beta) \\[5pt]
+        g_{ab} \, \alpha^a \beta^b = (\alpha, \beta)
+    \end{gather*}
+\end{definition}
+
+
+\subsection{Braketová notace}
+TODO.
 
 \section{Vektorový formalismus}
 
@@ -235,7 +419,7 @@ Je zvykem popisovat kvantové systémy pomocí abstraktních vektorů z nějaké
     \begin{enumerate}
         \item Dynamika systému je nezávislá na čase
         \item Evoluční operátor $\hat U$ je v každém čase unitární
-        \item Existuje samoadjugovaný operátor $\hat A(t)$ takový, že $\hat{U}(t) = \e{-\i \, \hat{A}(t) \, t}$.
+        \item Existuje samoadjugovaný operátor $\hat A(t)$ takový, že $\hat{U}(t) = \e{-\I \, \hat{A}(t) \, t}$.
     \end{enumerate}
 \end{lemma}
 \begin{proof}
@@ -255,35 +439,35 @@ Je zvykem popisovat kvantové systémy pomocí abstraktních vektorů z nějaké
     \end{equation*}
     Z \ref{unitarni-zachova-normu} potom víme, že operátor, který zachovává normu, je nutně unitární.
 
-    Nakonec dokážeme ekvivalenci $2 \Leftrightarrow 3$. Z lineární algebry víme, že pro každý unitární operátor $\hat U$ existuje samoadjugovaný operátor $\hat B$ takový, že $\hat U = \e{ \i \hat B}$, a naopak, že pro každý samoadjugovaný operátor $\hat B$ je výraz $\e{ \i \hat B}$ unitární. (TODO $\dim = \infty$) Pro evoluční operátor tedy máme
+    Nakonec dokážeme ekvivalenci $2 \Leftrightarrow 3$. Z lineární algebry víme, že pro každý unitární operátor $\hat U$ existuje samoadjugovaný operátor $\hat B$ takový, že $\hat U = \e{ \I \hat B}$, a naopak, že pro každý samoadjugovaný operátor $\hat B$ je výraz $\e{ \I \hat B}$ unitární. (TODO $\dim = \infty$) Pro evoluční operátor tedy máme
     \begin{equation*}
-        \hat U(t) = \e{\i \, \hat B(t)}.
+        \hat U(t) = \e{\I \, \hat B(t)}.
     \end{equation*}
     Protože navíc po evolučním operátoru požadujeme, aby $\hat U(0) = \1$, musí platit $\hat B(0) = 0$. BÚNO můžeme zavést operátor $\hat A(t) = - \hat B(t) / t$ pro $t \neq 0$ a libovolný pro $t=0$. Dosazením tohoto operátoru do předchozí rovnice dostáváme požadované
     \begin{equation*}
-        \hat U(t) = \e{-\i \, \hat A(t) \, t}
+        \hat U(t) = \e{-\I \, \hat A(t) \, t}
     \end{equation*}
 \end{proof}
 
 \begin{remark}
-Proč nás tolik zajímá zrovna tvar $\e{-\i \, \hat A(t) \, t}$ zjistíme vzápětí. Obzvlášť v případě $\hat A(t) = \konst$ má totiž operátor $\hat A$ důležitý fyzikální význam.
+Proč nás tolik zajímá zrovna tvar $\e{-\I \, \hat A(t) \, t}$ zjistíme vzápětí. Obzvlášť v případě $\hat A(t) = \konst$ má totiž operátor $\hat A$ důležitý fyzikální význam.
 \end{remark}
 
 \begin{theorem}[TDSE]
     Nechť je dynamika systému nezávislá na čase, potom existuje samoadjugovaný operátor $\hat H(t)$, pro který platí tzv. časová Schrödingerova rovnice:
     \begin{equation*}
-        \i \; \dd{}{t} \! \ket{\psi(t)} = \hat H(t) \ket{\psi(t)}
+        \I \; \dd{}{t} \! \ket{\psi(t)} = \hat H(t) \ket{\psi(t)}
     \end{equation*}
     pro všechny $\ket{\psi} \in \domain(\hat H)$.
 \end{theorem}
 \begin{proof}
     Z nezávislosti dynamiky systému na čase víme, že platí
     \begin{equation*}
-        \ket{\psi(t)} = \e{-\i \, \hat A(t) \, t} \ket{\psi}.
+        \ket{\psi(t)} = \e{-\I \, \hat A(t) \, t} \ket{\psi}.
     \end{equation*}
     Když rovnici zderivujeme podle času, dostaneme
     \begin{equation*}
-        \dd{}{t} \! \ket{\psi(t)} = -\i \; \left( \hat A(t) + t \, \bigdot{\hat A}(t) \right) \; \underbrace{ \e{-\i \, \hat A(t) \, t} \ket{\psi} \vph{\big|}}_{\ket{\psi(t)}}
+        \dd{}{t} \! \ket{\psi(t)} = -\I \; \left( \hat A(t) + t \, \bigdot{\hat A}(t) \right) \; \underbrace{ \e{-\I \, \hat A(t) \, t} \ket{\psi} \vph{\big|}}_{\ket{\psi(t)}}
     \end{equation*}
     Zavedeme operátor $\hat H(t)$ předpisem
     \begin{equation*}
@@ -308,7 +492,7 @@ Proč nás tolik zajímá zrovna tvar $\e{-\i \, \hat A(t) \, t}$ zjistíme vzá
     \label{evoluce-skleronomniho-systemu}
     Nechť je dynamika systému nezávislá na čase a hamiltonián $\hat H(t)$ je konstantní, potom
     \begin{equation*}
-        \ket{\psi(t)} = \e{-\i \, \hat{H} \, t} \ket{\psi}.
+        \ket{\psi(t)} = \e{-\I \, \hat{H} \, t} \ket{\psi}.
     \end{equation*}
 \end{corollary}
 \begin{proof}
@@ -342,7 +526,7 @@ Proč nás tolik zajímá zrovna tvar $\e{-\i \, \hat A(t) \, t}$ zjistíme vzá
 \begin{lemma}
     Mějme stacionární stav $\ket{\psi(t)}$, potom existuje taková funkce $E(t) \in \R$, že
     \begin{equation*}
-        \ket{\psi(t)} = \e{-\i \, E(t) \, t} \ket{\psi}.
+        \ket{\psi(t)} = \e{-\I \, E(t) \, t} \ket{\psi}.
     \end{equation*}
 \end{lemma}
 \begin{proof}
@@ -356,18 +540,18 @@ Proč nás tolik zajímá zrovna tvar $\e{-\i \, \hat A(t) \, t}$ zjistíme vzá
     Opět z rovnosti absolutních hodnot vyplývá, že existuje funkce $s(t) \in \R$ taková, že
     \begin{align*}
         \braket{\psi}{\psi}
-        &= \bra{\psi} \hat{U}(t) \ket{\psi} \e{\i s(t)},
+        &= \bra{\psi} \hat{U}(t) \ket{\psi} \e{\I s(t)},
         \\
-        \bra{\psi} \e{-\i s(t)} \ket{\psi}
+        \bra{\psi} \e{-\I s(t)} \ket{\psi}
         &= \bra{\psi} \hat{U}(t) \ket{\psi}.
     \end{align*}
     Porovnáním stran dostaneme
     \begin{equation*}
-        \hat U(t) = \e{-\i s(t)} \, \1.
+        \hat U(t) = \e{-\I s(t)} \, \1.
     \end{equation*}
     Protože navíc musí platit, že $\hat U(0) = \1$, můžeme si již tradičně zavést funkci $E(t) = s(t) / t$. Po dosazení získáme
     \begin{equation*}
-        \hat{U}(t) = \e{-\i \, E(t) \, t} \, \1.
+        \hat{U}(t) = \e{-\I \, E(t) \, t} \, \1.
     \end{equation*}
 \end{proof}
 
@@ -384,19 +568,19 @@ Proč nás tolik zajímá zrovna tvar $\e{-\i \, \hat A(t) \, t}$ zjistíme vzá
 \begin{proof}
     Nejprve ukážeme $1 \Rightarrow 2$. Ze stacionarity stavu $\ket{\psi(t)}$ vyplývá
     \begin{equation*}
-        \ket{\psi(t)} = \e{-\i \, E(t) \, t} \ket{\psi}.
+        \ket{\psi(t)} = \e{-\I \, E(t) \, t} \ket{\psi}.
     \end{equation*}
     Naopak z $\hat H(t) = \konst$ plyne (viz \ref{evoluce-skleronomniho-systemu})
     \begin{equation*}
-        \ket{\psi(t)} = \e{-\i \, \hat H \, t} \ket{\psi}.
+        \ket{\psi(t)} = \e{-\I \, \hat H \, t} \ket{\psi}.
     \end{equation*}
     Porovnáním zjistíme, že $E(t)$ musí být konstantní. Dosazením do časové Schrödingerovy rovnice potom dostaneme
     \begin{align*}
-        \i \; \dd{}{t} \! \e{-\i E t} \ket{\psi}
-        &= \hat H \; \e{-\i E t} \ket{\psi}
+        \I \; \dd{}{t} \! \e{-\I E t} \ket{\psi}
+        &= \hat H \; \e{-\I E t} \ket{\psi}
         \\
-        \i \; (-\i) \; E \; \e{-\i E t} \ket{\psi}
-        &= \e{-\i E t} \; \hat H \ket{\psi}
+        \I \; (-\I) \; E \; \e{-\I E t} \ket{\psi}
+        &= \e{-\I E t} \; \hat H \ket{\psi}
         \\
         E \ket{\psi}
         &= \hat H \ket{\psi}
@@ -404,21 +588,21 @@ Proč nás tolik zajímá zrovna tvar $\e{-\i \, \hat A(t) \, t}$ zjistíme vzá
 
     Nyní dokážeme implikaci opačným směrem. Opět použijeme výsledek z \ref{evoluce-skleronomniho-systemu}, tedy pokud dynamika systému a hamiltonián nezávisí na čase, potom platí:
     \begin{equation*}
-        \ket{\psi(t)} = \e{\i \hat H t} \ket{\psi}
+        \ket{\psi(t)} = \e{\I \hat H t} \ket{\psi}
     \end{equation*}
     Rozepíšeme exponenciálu operátoru z definice (FUJ) a použijeme platnost bezčasové Schrödingerovy rovnice
     \begin{equation*}
         \ket{\psi(t)}
-        = \e{-\i \hat H t} \ket{\psi}
-        = \sum_{n = 0}^\infty \frac{1}{n!} (-\i \hat H t)^n \ket{\psi}
-        = \sum_{n = 0}^\infty \frac{1}{n!} (-\i t)^n \hat H^n \ket{\psi}
-        = \sum_{n = 0}^\infty \frac{1}{n!}(-\i t)^n E^n \ket{\psi}
-        = \e{-\i E t} \ket{\psi}
+        = \e{-\I \hat H t} \ket{\psi}
+        = \sum_{n = 0}^\infty \frac{1}{n!} (-\I \hat H t)^n \ket{\psi}
+        = \sum_{n = 0}^\infty \frac{1}{n!} (-\I t)^n \hat H^n \ket{\psi}
+        = \sum_{n = 0}^\infty \frac{1}{n!}(-\I t)^n E^n \ket{\psi}
+        = \e{-\I E t} \ket{\psi}
     \end{equation*}
     Vidíme, že skutečně
     \begin{equation*}
         \abs{\braket{\psi}{\psi(t)}}^2
-        = \abs{\bra{\psi} \; \e{-\i E t} \ket{\psi}}^2
+        = \abs{\bra{\psi} \; \e{-\I E t} \ket{\psi}}^2
         = \abs{\braket{\psi}{\psi}}^2
         = 1.
     \end{equation*}
